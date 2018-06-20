@@ -27,7 +27,7 @@ public class PrintingController {
 
     @RequestMapping(value="/printing/{image}", method= GET)
     public PrinterResponse printing(@RequestParam(value="image", defaultValue="Invalid") String image) throws IOException {
-        saveImage(image, "src/test/resources/images/"+image);
+        saveImage(image, "src/main/resources/images/tempImg.png");
         return new PrinterResponse("blue",
                 String.format(image));
     }
@@ -51,6 +51,10 @@ public class PrintingController {
 
         is.close();
         os.close();
+    }
+
+    public static void matchColourToApi() {
+
     }
 
 }
