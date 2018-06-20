@@ -18,20 +18,7 @@ public class ColourConverterTest {
             File testImg = new File("src/test/resources/images/tempImg.png");
             BufferedImage image =
                     ImageIO.read(testImg);
-            assertEquals(colourConverter.getColour(image),"rgb(13,106,117)");
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Test
-    public void getBlackColourTest() {
-        try {
-            ColourConverter colourConverter = new ColourConverter();
-            File testImg = new File("src/test/resources/images/testImage.jpg");
-            BufferedImage image =
-                    ImageIO.read(testImg);
-            assertEquals(colourConverter.getColour(image),"rgb(48,48,48)");
+            assertEquals(colourConverter.getColour(image, 3).get(0),"rgb(13,106,117)");
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }

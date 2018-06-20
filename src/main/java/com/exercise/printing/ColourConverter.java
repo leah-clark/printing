@@ -1,8 +1,13 @@
 package com.exercise.printing;
 
+import org.springframework.stereotype.Component;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
+@Component
 public class ColourConverter {
 
     private long redCounter;
@@ -10,7 +15,7 @@ public class ColourConverter {
     private long blueCounter;
     private long pixels;
 
-    public String getColour(BufferedImage image) {
+    public ArrayList<String> getColour(BufferedImage image, int variance) {
         int w = image.getWidth();
         int h = image.getHeight();
         redCounter = 0;
@@ -23,8 +28,8 @@ public class ColourConverter {
                 countPixelARGB(pixel);
             }
         }
-        StringBuilder colourResult = buildColourResult();
-        return colourResult.toString();
+        ArrayList<String> colourList = createPermutations(variance);
+        return colourList;
     }
 
     public void countPixelARGB(int pixel) {
@@ -38,10 +43,22 @@ public class ColourConverter {
         pixels++;
     }
 
-    public StringBuilder buildColourResult() {
+    public ArrayList<String> createPermutations(int variance) {
+        ArrayList<String> colourList = new ArrayList<String>();
         long redPixels = redCounter/pixels;
         long greenPixels = greenCounter/pixels;
         long bluePixels = blueCounter/pixels;
+        for(int i = 0; i<variance; i++) {
+            for(int j=0; j<variance; j++) {
+                for(int k=0; k<variance; k++) {
+                    colourList.add(buildColourResult(redPixels+i,greenPixels+j,bluePixels+k));
+                }
+            }
+        }
+        return colourList;
+    }
+
+    public String buildColourResult(long redPixels, long greenPixels, long bluePixels) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("rgb(");
         stringBuilder.append(redPixels);
@@ -50,6 +67,6 @@ public class ColourConverter {
         stringBuilder.append(",");
         stringBuilder.append(bluePixels);
         stringBuilder.append(")");
-        return stringBuilder;
+        return stringBuilder.toString();
     }
 }

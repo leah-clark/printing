@@ -1,16 +1,18 @@
 package com.exercise.printing;
 
+import java.util.ArrayList;
+
 public class PrinterResponse {
-    private final String colour;
+    private final ArrayList<String> colours;
     private final String imageUrl;
 
-    public PrinterResponse(String colour, String imageUrl) {
-        this.colour = colour;
+    public PrinterResponse(ArrayList<String> colours, String imageUrl) {
+        this.colours = colours;
         this.imageUrl = imageUrl;
     }
 
-    public String getColour() {
-        return colour;
+    public ArrayList<String> getColours() {
+        return colours;
     }
 
     public String getImageUrl() {

@@ -1,6 +1,11 @@
 package com.exercise.printing;
 
+import com.google.gson.Gson;
 import com.sun.deploy.net.HttpResponse;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,49 +17,45 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class PrintingController {
 
-    @RequestMapping(value="/printing/{image}", method= GET)
-    public PrinterResponse printing(@RequestParam(value="image", defaultValue="Invalid") String image) throws IOException {
-        saveImage(image, "src/main/resources/images/tempImg.png");
-        return new PrinterResponse("blue",
+    @Autowired
+    ColourConverter colourConverter;
+
+    @Autowired
+    PrintingController(ColourConverter colourConverter) {
+        this.colourConverter = colourConverter;
+    }
+
+    @RequestMapping(value="/printing/{variance}/{image}", method= GET)
+    public PrinterResponse printing(@RequestParam(value="image", defaultValue="Invalid") String image,
+                                    @RequestParam(value = "variance", defaultValue = "3") String variance) throws IOException {
+        ArrayList<String> colourRGB = imageToColour(image, Integer.parseInt(variance));
+        return new PrinterResponse(colourRGB,
                 String.format(image));
     }
 
-    public static void saveImage(final String imageUrl, final String destinationFile) throws IOException {
+    public ArrayList<String> imageToColour(final String imageUrl, int variance) throws IOException {
         final URL url = new URL(imageUrl);
-        final HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-
-        File outputfile = new File(destinationFile);
-        outputfile.createNewFile();
-
-        final InputStream is = urlConnection.getInputStream();
-        final OutputStream os = new FileOutputStream(outputfile, false);
-
-        byte[] b = new byte[2048];
-        int length;
-
-        while ((length = is.read(b)) != -1) {
-            os.write(b, 0, length);
-        }
-
-        is.close();
-        os.close();
-    }
-
-    public static void matchColourToApi() {
-
+        BufferedImage img = ImageIO.read(url);
+        ArrayList<String> colourRGB = colourConverter.getColour(img, variance);
+        return colourRGB;
     }
 
 }
