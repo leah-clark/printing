@@ -3,16 +3,16 @@ package com.exercise.printing;
 import java.util.ArrayList;
 
 public class PrinterResponse {
-    private final ArrayList<String> colours;
+    private final String colour;
     private final String imageUrl;
 
-    public PrinterResponse(ArrayList<String> colours, String imageUrl) {
-        this.colours = colours;
+    public PrinterResponse(String colour, String imageUrl) {
+        this.colour = colour;
         this.imageUrl = imageUrl;
     }
 
-    public ArrayList<String> getColours() {
-        return colours;
+    public String getColour() {
+        return colour;
     }
 
     public String getImageUrl() {

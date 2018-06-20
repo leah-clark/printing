@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class ColourConverter {
