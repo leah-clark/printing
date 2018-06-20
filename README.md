@@ -6,7 +6,7 @@ mvn spring-boot:run
 
 url call:
 
-http://localhost:8080/printing/<variance-of-pixels-checked>/image?image=<image-url>
+http://localhost:8080/printing/{variance-of-pixels-checked}/image?image={image-url}
 
 example url clal:
 
