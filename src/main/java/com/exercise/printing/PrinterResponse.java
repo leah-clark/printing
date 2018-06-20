@@ -1,7 +1,5 @@
 package com.exercise.printing;
 
-import java.util.ArrayList;
-
 public class PrinterResponse {
     private final String colour;
     private final String imageUrl;

@@ -1,36 +1,25 @@
 package com.exercise.printing;
 
-import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PrintingControllerTest {
 
     ColourConverter colourConverter = new ColourConverter();
 
+    TestData testData = new TestData();
+
     PrintingController printingController;
 
     @Before
     public void setUp() {
-        printingController = new PrintingController(colourConverter);
+        printingController = new PrintingController(colourConverter, testData);
     }
 
     @Test

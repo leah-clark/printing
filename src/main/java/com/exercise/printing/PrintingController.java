@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -22,8 +21,12 @@ public class PrintingController {
     ColourConverter colourConverter;
 
     @Autowired
-    PrintingController(ColourConverter colourConverter) {
+    TestData testData;
+
+    @Autowired
+    PrintingController(ColourConverter colourConverter, TestData testData) {
         this.colourConverter = colourConverter;
+        this.testData = testData;
     }
 
     @RequestMapping(value="/printing/{variance}/{image}", method= GET)
@@ -38,29 +41,7 @@ public class PrintingController {
         final URL url = new URL(imageUrl);
         BufferedImage img = ImageIO.read(url);
         ArrayList<String> colourRGB = colourConverter.getColour(img, variance);
-        HashMap<String, String> testPredefinedList = getTestPredefinedList();
-        String result = matchToColour(colourRGB, testPredefinedList);
+        String result = testData.matchToColour(colourRGB);
         return result;
     }
-
-    ////Test in contorller based on spec from email
-
-    public String matchToColour(ArrayList<String> colourRGB, HashMap<String,String> testPredefinedList) {
-        for(String colour: colourRGB) {
-            if (testPredefinedList.containsKey(colour)) {
-                return testPredefinedList.get(colour);
-            }
-        }
-        return "Colour not in dictionary";
-    }
-
-    public HashMap<String, String> getTestPredefinedList() {
-        HashMap<String, String> testPredefinedList = new HashMap<>();
-        testPredefinedList.put("rgb(48,49,50)", "black");
-       // testPredefinedList.put("rgb(14,14,90)","navy");
-        testPredefinedList.put("rgb(13,107,119)","teal");
-        testPredefinedList.put("rgb(67,82,96)","grey");
-        return testPredefinedList;
-    }
-
 }
