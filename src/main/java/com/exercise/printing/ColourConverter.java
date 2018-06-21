@@ -4,7 +4,10 @@ import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class ColourConverter {
@@ -57,6 +60,20 @@ public class ColourConverter {
         return colourList;
     }
 
+    public HashMap<String, String> colours() throws IllegalAccessException {
+        HashMap<String, String> map = new HashMap<>();
+        for (Field f : Color.class.getFields()) {
+            if (f.getType() == Color.class) {
+                Color c = (Color) f.get(null);
+                int blue = c.getBlue();
+                int green = c.getGreen();
+                int red = c.getRed();
+                map.put(buildColourResult(red, green, blue), f.getName());
+            }
+        }
+        return map;
+    }
+
     public String buildColourResult(long redPixels, long greenPixels, long bluePixels) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("rgb(");
@@ -68,4 +85,5 @@ public class ColourConverter {
         stringBuilder.append(")");
         return stringBuilder.toString();
     }
+
 }

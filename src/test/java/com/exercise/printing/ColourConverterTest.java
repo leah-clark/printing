@@ -1,11 +1,14 @@
 package com.exercise.printing;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,5 +25,17 @@ public class ColourConverterTest {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void getColourMapTest() throws IllegalAccessException {
+        //what
+        ColourConverter colourConverter = new ColourConverter();
+
+        //when
+        HashMap<String, String> colourMap = colourConverter.colours();
+
+        //then
+        assertEquals(colourMap.get("rgb(0,255,0)"), "GREEN");
     }
 }
