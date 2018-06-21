@@ -14,13 +14,12 @@ public class PrintingControllerTest {
 
     ColourConverter colourConverter = new ColourConverter();
 
-    TestData testData = new TestData();
 
     PrintingController printingController;
 
     @Before
     public void setUp() {
-        printingController = new PrintingController(colourConverter, testData);
+        printingController = new PrintingController(colourConverter);
     }
 
     @Test
