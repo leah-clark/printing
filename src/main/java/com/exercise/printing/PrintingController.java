@@ -24,12 +24,8 @@ public class PrintingController {
     ColourConverter colourConverter;
 
     @Autowired
-    TestData testData;
-
-    @Autowired
-    PrintingController(ColourConverter colourConverter, TestData testData) {
+    PrintingController(ColourConverter colourConverter) {
         this.colourConverter = colourConverter;
-        this.testData = testData;
     }
 
     @RequestMapping(value="/printing/{variance}/{image}", method= GET)
