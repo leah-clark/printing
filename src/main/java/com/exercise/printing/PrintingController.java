@@ -1,5 +1,8 @@
 package com.exercise.printing;
 
+import com.exercise.Domain.ColourDetails;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -40,8 +43,14 @@ public class PrintingController {
     public String imageToColour(final String imageUrl, int variance) throws IOException {
         final URL url = new URL(imageUrl);
         BufferedImage img = ImageIO.read(url);
-        ArrayList<String> colourRGB = colourConverter.getColour(img, variance);
-        String result = testData.matchToColour(colourRGB);
-        return result;
+        String colourRGB = colourConverter.getColour(img, variance);
+        ColourDetails colourDetails = getColourFromJson("http://thecolorapi.com/id?"+colourRGB);
+        return colourDetails.getName().getValue();
+    }
+
+    public ColourDetails getColourFromJson(String url) throws IOException {
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ColourDetails colourDetails = mapper.readValue(new URL(url), ColourDetails.class);
+        return colourDetails;
     }
 }

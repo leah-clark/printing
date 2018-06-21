@@ -17,7 +17,7 @@ public class ColourConverter {
     private long blueCounter;
     private long pixels;
 
-    public ArrayList<String> getColour(BufferedImage image, int variance) {
+    public String getColour(BufferedImage image, int variance) {
         int w = image.getWidth();
         int h = image.getHeight();
         redCounter = 0;
@@ -30,8 +30,8 @@ public class ColourConverter {
                 countPixelARGB(pixel);
             }
         }
-        ArrayList<String> colourList = createPermutations(variance);
-        return colourList;
+        String colourRGB = buildColourResult(redCounter/pixels, greenCounter/pixels, blueCounter/pixels);
+        return colourRGB;
     }
 
     public void countPixelARGB(int pixel) {
@@ -45,44 +45,14 @@ public class ColourConverter {
         pixels++;
     }
 
-    public ArrayList<String> createPermutations(int variance) {
-        ArrayList<String> colourList = new ArrayList<String>();
-        long redPixels = redCounter/pixels;
-        long greenPixels = greenCounter/pixels;
-        long bluePixels = blueCounter/pixels;
-        for(int i = 0; i<variance; i++) {
-            for(int j=0; j<variance; j++) {
-                for(int k=0; k<variance; k++) {
-                    colourList.add(buildColourResult(redPixels+i,greenPixels+j,bluePixels+k));
-                }
-            }
-        }
-        return colourList;
-    }
-
-    public HashMap<String, String> colours() throws IllegalAccessException {
-        HashMap<String, String> map = new HashMap<>();
-        for (Field f : Color.class.getFields()) {
-            if (f.getType() == Color.class) {
-                Color c = (Color) f.get(null);
-                int blue = c.getBlue();
-                int green = c.getGreen();
-                int red = c.getRed();
-                map.put(buildColourResult(red, green, blue), f.getName());
-            }
-        }
-        return map;
-    }
-
     public String buildColourResult(long redPixels, long greenPixels, long bluePixels) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("rgb(");
+        stringBuilder.append("rgb=");
         stringBuilder.append(redPixels);
         stringBuilder.append(",");
         stringBuilder.append(greenPixels);
         stringBuilder.append(",");
         stringBuilder.append(bluePixels);
-        stringBuilder.append(")");
         return stringBuilder.toString();
     }
 

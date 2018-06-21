@@ -1,5 +1,6 @@
 package com.exercise.printing;
 
+import com.exercise.Domain.ColourDetails;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,11 +33,11 @@ public class PrintingControllerTest {
         String imageColours = printingController.imageToColour(url, 3);
 
         //then
-        assertEquals(imageColours.toString(), "black");
+        assertEquals(imageColours.toString(), "Mine Shaft");
     }
 
     @Test
-    public void imageToColourNegativeTest() throws IOException {
+    public void imageToColourNavyTest() throws IOException {
 
         //what
         String url = "https://pwintyimages.blob.core.windows.net/samples/stars/sample-navy.png";
@@ -45,19 +46,19 @@ public class PrintingControllerTest {
         String imageColours = printingController.imageToColour(url, 3);
 
         //then
-        assertEquals(imageColours.toString(), "Colour not in dictionary");
+        assertEquals(imageColours.toString(), "Arapawa");
     }
 
     @Test
-    public void imageToColourNoSearchTest() throws IOException {
-
+    public void getColourFromJsonTest() throws IOException {
         //what
-        String url = "https://pwintyimages.blob.core.windows.net/samples/stars/sample-black.png";
+        String url = "http://thecolorapi.com/id?rgb=13,106,171";
 
         //when
-        String imageColours = printingController.imageToColour(url, 1);
+        ColourDetails colourDetails = printingController.getColourFromJson(url);
 
         //then
-        assertEquals(imageColours.toString(), "Colour not in dictionary");
+        assertEquals(colourDetails.getName().getValue(),"Green Blue");
+
     }
 }

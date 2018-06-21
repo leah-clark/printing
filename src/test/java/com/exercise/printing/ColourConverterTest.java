@@ -21,21 +21,10 @@ public class ColourConverterTest {
             File testImg = new File("src/test/resources/images/tempImg.png");
             BufferedImage image =
                     ImageIO.read(testImg);
-            assertEquals(colourConverter.getColour(image, 3).get(0),"rgb(13,106,117)");
+            assertEquals(colourConverter.getColour(image, 3),"rgb=13,106,117");
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    @Test
-    public void getColourMapTest() throws IllegalAccessException {
-        //what
-        ColourConverter colourConverter = new ColourConverter();
-
-        //when
-        HashMap<String, String> colourMap = colourConverter.colours();
-
-        //then
-        assertEquals(colourMap.get("rgb(0,255,0)"), "GREEN");
-    }
 }
